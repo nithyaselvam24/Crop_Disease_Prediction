@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="AI Crop Doctor - CNN based crop disease prediction and farmer assistance">
+
+    <title>AI Crop Doctor</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- PDF Library -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    </script>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="container navbar">
+
+        <a href="#home" class="logo">
+
+            <div class="logo-icon">
+                🌿
+            </div>
+
+            <div class="logo-text">
+
+                <strong>AI Crop Doctor</strong>
+
+                <span data-i18n="logoSubtitle">
+                    Smart Farming Assistant
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="#home" class="active"
+                data-i18n="navHome">
+                Home
+            </a>
+
+            <a href="#doctor"
+                data-i18n="navDoctor">
+                AI Doctor
+            </a>
+
+            <a href="#features"
+                data-i18n="navFeatures">
+                Features
+            </a>
+
+            <a href="#how"
+                data-i18n="navHow">
+                How It Works
+            </a>
+
+            <a href="#assistant"
+                data-i18n="navAssistant">
+                Farmer Assistant
+            </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <div class="language-switch">
+
+                <button
+                    id="englishBtn"
+                    class="language-btn active">
+                    English
+                </button>
+
+                <button
+                    id="tamilBtn"
+                    class="language-btn">
+                    தமிழ்
+                </button>
+
+            </div>
+
+            <button
+                id="loginBtn"
+                class="login-btn"
+                data-i18n="login">
+                Farmer Login
+            </button>
+            <button id="logoutBtn" class="logout-btn" type="button">
+    Logout
+</button>
+        
+
+        </div>
+
+
+        <button
+            id="mobileMenuBtn"
+            class="mobile-menu-btn">
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main>
+
+<section id="home" class="hero">
+
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <div class="ai-badge">
+
+                <span class="pulse-dot"></span>
+
+                <span data-i18n="aiPowered">
+                    AI POWERED
+                </span>
+
+            </div>
+
+
+            <h1 data-i18n="heroTitle">
+                AI Crop Doctor
+            </h1>
+
+
+            <h2 data-i18n="heroSubtitle">
+                Smart Crop Disease Detection
+            </h2>
+
+
+            <p data-i18n="heroDescription">
+                Upload a clear crop leaf image and our
+                CNN-based AI system will analyze it and
+                provide disease information, treatment,
+                organic solutions, nutrition guidance and
+                prevention tips.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <button
+                    id="startDoctorBtn"
+                    class="primary-btn">
+
+                    🌱
+                    <span data-i18n="startDoctor">
+                        Start AI Diagnosis
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="heroHistoryBtn"
+                    class="outline-btn">
+
+                    🕘
+                    <span data-i18n="viewHistory">
+                        View History
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="hero-stats">
+
+                <div class="stat">
+
+                    <strong>13+</strong>
+
+                    <span data-i18n="statDiseases">
+                        Disease Types
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong>CNN</strong>
+
+                    <span data-i18n="statModel">
+                        Deep Learning
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong>24/7</strong>
+
+                    <span data-i18n="statAvailable">
+                        Available
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="leaf-circle">
+
+                <div class="leaf-main">
+                    🌿
+                </div>
+
+                <div class="floating-card card-one">
+                    🔬 AI Analysis
+                </div>
+
+                <div class="floating-card card-two">
+                    📊 99% Confidence
+                </div>
+
+                <div class="floating-card card-three">
+                    🌱 Crop Health
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     AI DOCTOR
+===================================================== -->
+
+<section id="doctor" class="doctor-section">
+
+    <div class="container">
+
+        <div class="section-heading center">
+
+            <span class="section-label"
+                data-i18n="checkCrop">
+                CHECK YOUR CROP
+            </span>
+
+            <h2 data-i18n="doctorTitle">
+                AI Crop Doctor
+            </h2>
+
+            <p data-i18n="doctorDescription">
+                Upload a clear image of the crop leaf
+                for AI-powered disease detection.
+            </p>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <div id="uploadBox" class="upload-box">
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/jpeg,image/jpg,image/png"
+                hidden>
+
+
+            <div class="upload-icon">
+                📷
+            </div>
+
+
+            <h3 data-i18n="uploadTitle">
+                Upload Crop Leaf Image
+            </h3>
+
+
+            <p data-i18n="uploadDescription">
+                Use a clear, well-lit image showing
+                the leaf clearly.
+            </p>
+
+
+            <button
+                id="browseBtn"
+                class="primary-btn">
+
+                📁
+                <span data-i18n="browseImage">
+                    Browse Image
+                </span>
+
+            </button>
+
+
+            <small>
+                JPG / JPEG / PNG · Max 10 MB
+            </small>
+
+        </div>
+
+
+        <!-- PREVIEW -->
+
+        <div
+            id="previewSection"
+            class="preview-section hidden">
+
+            <div class="preview-header">
+
+                <div>
+
+                    <span class="section-label"
+                        data-i18n="selectedImage">
+                        Selected Image
+                    </span>
+
+                    <span class="ready-badge">
+                        ✓
+                        <span data-i18n="ready">
+                            Ready
+                        </span>
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="removeImageBtn"
+                    class="remove-btn">
+
+                    ✕
+                    <span data-i18n="remove">
+                        Remove
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="preview-image-wrap">
+
+                <img
+                    id="imagePreview"
+                    alt="Selected crop leaf">
+
+            </div>
+
+
+            <button
+                id="predictBtn"
+                class="analyze-btn"
+                disabled>
+
+                🔬
+                <span data-i18n="analyzeLeaf">
+                    Analyze Leaf
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="loading-box hidden">
+
+            <div class="spinner"></div>
+
+            <h3 data-i18n="analyzing">
+                Analyzing...
+            </h3>
+
+            <p data-i18n="analyzingText">
+                AI is analyzing your crop image.
+                Please wait.
+            </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorBox"
+            class="error-box hidden">
+
+            <div class="error-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <strong data-i18n="errorTitle">
+                    Something went wrong
+                </strong>
+
+                <p id="errorMessage"></p>
+
+            </div>
+
+            <button id="errorCloseBtn">
+                ✕
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULT
+        ================================================= -->
+
+        <div
+            id="resultSection"
+            class="result-section hidden">
+
+            <div class="result-top">
+
+                <div>
+
+                    <span class="section-label">
+                        <span data-i18n="aiResult">
+                            AI RESULT
+                        </span>
+                    </span>
+
+                    <h2 data-i18n="healthAnalysis">
+                        Your Crop Health Report
+                    </h2>
+
+                </div>
+
+
+                <span class="complete-badge">
+                    ✓ Analysis Complete
+                </span>
+
+            </div>
+
+
+            <!-- RESULT IMAGE -->
+
+            <div class="result-image-card">
+
+                <img
+                    id="resultImage"
+                    alt="Crop result">
+
+            </div>
+
+
+            <!-- BASIC RESULT -->
+
+            <div class="result-summary-grid">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        🌱
+                    </div>
+
+                    <div>
+
+                        <span data-i18n="detectedCrop">
+                            Detected Crop
+                        </span>
+
+                        <strong id="cropName">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        🦠
+                    </div>
+
+                    <div>
+
+                        <span data-i18n="detectedDisease">
+                            Detected Disease
+                        </span>
+
+                        <strong id="diseaseName">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIDENCE -->
+
+            <div class="confidence-card">
+
+                <div class="confidence-header">
+
+                    <div>
+
+                        <span data-i18n="confidence">
+                            Confidence
+                        </span>
+
+                        <strong id="confidence">
+                            0%
+                        </strong>
+
+                    </div>
+
+                    <span
+                        id="confidenceLevel"
+                        class="confidence-badge">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="confidence-track">
+
+                    <div
+                        id="confidenceBar"
+                        class="confidence-fill">
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="confidenceLevelCard"
+                    class="confidence-level-card">
+
+                    🎯
+
+                    <span
+                        id="confidenceLevelText">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEVERITY -->
+
+            <div class="severity-card">
+
+                <div class="severity-icon">
+                    ⚠️
+                </div>
+
+                <div>
+
+                    <span data-i18n="severity">
+                        Severity
+                    </span>
+
+                    <strong id="severity">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOW CONFIDENCE -->
+
+            <div
+                id="lowConfidence"
+                class="low-confidence hidden">
+
+                <div>
+                    ⚠️
+                </div>
+
+                <div>
+
+                    <strong data-i18n="lowConfidenceTitle">
+                        Low Confidence Result
+                    </strong>
+
+                    <p data-i18n="lowConfidenceText">
+                        The AI confidence is low.
+                        Please upload a clearer image
+                        with the leaf fully visible.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FARMER GUIDANCE
+            ================================================= -->
+
+            <div class="farmer-guidance">
+
+                <div class="guidance-heading">
+
+                    <div class="guidance-title-row">
+
+                        <span class="guidance-main-icon">
+                            👨‍🌾
+                        </span>
+
+                        <div>
+
+                            <h2 data-i18n="whatToDo">
+                                What You Should Do
+                            </h2>
+
+                            <p>
+                                Helpful information based
+                                on the detected condition
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SYMPTOMS -->
+
+                <div class="guidance-card">
+
+                    <div class="guidance-icon symptoms-icon">
+                        🔎
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="symptoms">
+                            Symptoms
+                        </h3>
+
+                        <p id="symptoms">
+                            No information available.
+                        </p>
+
+                        <button
+                            class="voice-btn"
+                            data-voice-target="symptoms">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TREATMENT -->
+
+                <div class="guidance-card">
+
+                    <div class="guidance-icon treatment-icon">
+                        💊
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="treatment">
+                            Treatment
+                        </h3>
+
+                        <p id="treatment">
+                            No information available.
+                        </p>
+
+                        <button
+                            class="voice-btn"
+                            data-voice-target="treatment">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORGANIC -->
+
+                <div class="guidance-card">
+
+                    <div class="guidance-icon organic-icon">
+                        🌿
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="organic">
+                            Organic Solution
+                        </h3>
+
+                        <p id="organicSolution">
+                            No information available.
+                        </p>
+
+                        <button
+                            class="voice-btn"
+                            data-voice-target="organicSolution">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NUTRITION -->
+
+                <div class="guidance-card">
+
+                    <div class="guidance-icon nutrition-icon">
+                        🧪
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="nutrition">
+                            Nutrition / Fertilizer Guidance
+                        </h3>
+
+                        <p id="nutrition">
+                            No information available.
+                        </p>
+
+                        <button
+                            class="voice-btn"
+                            data-voice-target="nutrition">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PREVENTION -->
+
+                <div class="guidance-card">
+
+                    <div class="guidance-icon prevention-icon">
+                        🛡️
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="prevention">
+                            Prevention
+                        </h3>
+
+                        <p id="prevention">
+                            No information available.
+                        </p>
+
+                        <button
+                            class="voice-btn"
+                            data-voice-target="prevention">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WARNING -->
+
+                <div class="guidance-warning">
+
+                    <div class="warning-icon">
+                        ⚠️
+                    </div>
+
+                    <div class="guidance-content">
+
+                        <h3 data-i18n="warning">
+                            Important Warning
+                        </h3>
+
+                        <p id="warning">
+                            Please follow recommended
+                            precautions.
+                        </p>
+
+                        <button
+                            class="voice-btn warning-voice"
+                            data-voice-target="warning">
+                            🔊
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="result-actions">
+
+                <button
+                    type="button"
+                    id="newPredictionBtn"
+                    class="primary-action-btn">
+
+                    🔄
+                    <span data-i18n="newPrediction">
+                        Check Another Leaf
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="viewHistoryBtn"
+                    class="secondary-action-btn">
+
+                    🕘
+                    <span data-i18n="history">
+                        History
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="downloadPdfBtn"
+                    class="secondary-action-btn">
+
+                    📄
+                    <span data-i18n="downloadPdf">
+                        Download PDF
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section id="features" class="features-section">
+
+    <div class="container">
+
+        <div class="section-heading center">
+
+            <span class="section-label"
+                data-i18n="featuresLabel">
+                SMART FEATURES
+            </span>
+
+            <h2 data-i18n="featuresTitle">
+                Everything You Need for Smarter Farming
+            </h2>
+
+            <p data-i18n="featuresDescription">
+                AI-powered tools designed to help
+                farmers make better crop health decisions.
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🧠
+                </div>
+
+                <h3 data-i18n="featureCNN">
+                    CNN Disease Detection
+                </h3>
+
+                <p data-i18n="featureCNNText">
+                    Deep learning model trained to
+                    identify crop diseases from leaf images.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3 data-i18n="featureAnalytics">
+                    Disease Analytics
+                </h3>
+
+                <p data-i18n="featureAnalyticsText">
+                    Track your crop predictions and
+                    confidence statistics.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🌿
+                </div>
+
+                <h3 data-i18n="featureOrganic">
+                    Organic Solutions
+                </h3>
+
+                <p data-i18n="featureOrganicText">
+                    Get practical organic management
+                    suggestions.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🧪
+                </div>
+
+                <h3 data-i18n="featureNutrition">
+                    Nutrition Guidance
+                </h3>
+
+                <p data-i18n="featureNutritionText">
+                    Receive general crop nutrition
+                    and fertilizer guidance.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🌦️
+                </div>
+
+                <h3 data-i18n="featureWeather">
+                    Weather Advice
+                </h3>
+
+                <p data-i18n="featureWeatherText">
+                    Use your location for weather-based
+                    crop advice.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔊
+                </div>
+
+                <h3 data-i18n="featureVoice">
+                    Tamil & English Voice
+                </h3>
+
+                <p data-i18n="featureVoiceText">
+                    Listen to disease information
+                    in English or Tamil.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📄
+                </div>
+
+                <h3 data-i18n="featurePDF">
+                    PDF Health Report
+                </h3>
+
+                <p data-i18n="featurePDFText">
+                    Download a detailed crop health
+                    report after prediction.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👨‍🌾
+                </div>
+
+                <h3 data-i18n="featureSupport">
+                    Agriculture Support
+                </h3>
+
+                <p data-i18n="featureSupportText">
+                    Access agriculture support
+                    information and nearby help.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section id="how" class="how-section">
+
+    <div class="container">
+
+        <div class="section-heading center">
+
+            <span class="section-label"
+                data-i18n="howLabel">
+                SIMPLE PROCESS
+            </span>
+
+            <h2 data-i18n="howTitle">
+                How It Works
+            </h2>
+
+            <p data-i18n="howDescription">
+                Get your crop health result in
+                just a few simple steps.
+            </p>
+
+        </div>
+
+
+        <div class="steps-grid">
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div class="step-icon">
+                    📤
+                </div>
+
+                <h3 data-i18n="stepOneTitle">
+                    Upload
+                </h3>
+
+                <p data-i18n="stepOneText">
+                    Upload a clear image of the
+                    crop leaf.
+                </p>
+
+            </div>
+
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div class="step-icon">
+                    🧠
+                </div>
+
+                <h3 data-i18n="stepTwoTitle">
+                    AI Analysis
+                </h3>
+
+                <p data-i18n="stepTwoText">
+                    Our CNN model analyzes the image.
+                </p>
+
+            </div>
+
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div class="step-icon">
+                    📋
+                </div>
+
+                <h3 data-i18n="stepThreeTitle">
+                    Get Result
+                </h3>
+
+                <p data-i18n="stepThreeText">
+                    View disease, confidence,
+                    symptoms and treatment.
+                </p>
+
+            </div>
+
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <div class="step-icon">
+                    🌱
+                </div>
+
+                <h3 data-i18n="stepFourTitle">
+                    Take Action
+                </h3>
+
+                <p data-i18n="stepFourText">
+                    Follow prevention, nutrition
+                    and management guidance.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SUPPORTED CROPS
+===================================================== -->
+
+<section class="supported-section">
+
+    <div class="container">
+
+        <div class="supported-box">
+
+            <div>
+
+                <span class="section-label">
+                    AI MODEL
+                </span>
+
+                <h2 data-i18n="supportedTitle">
+                    Supported Crops
+                </h2>
+
+                <p data-i18n="supportedDescription">
+                    The current CNN model supports
+                    13 crop health classes.
+                </p>
+
+                <button
+                    id="supportedStartBtn"
+                    class="primary-btn">
+
+                    🌿
+                    <span data-i18n="startNow">
+                        Start Now
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="crop-list">
+
+                <span>🍅 Tomato</span>
+                <span>🥔 Potato</span>
+                <span>🌶️ Pepper</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FARMER ASSISTANT
+===================================================== -->
+
+<section id="assistant" class="assistant-section">
+
+    <div class="container">
+
+        <div class="section-heading center">
+
+            <span class="section-label"
+                data-i18n="assistantLabel">
+                FARMER ASSISTANT
+            </span>
+
+            <h2 data-i18n="assistantTitle">
+                Your Digital Farming Companion
+            </h2>
+
+            <p data-i18n="assistantDescription">
+                Use the available tools to get
+                crop health support.
+            </p>
+
+        </div>
+
+
+        <div class="assistant-grid">
+
+            <div class="assistant-card">
+
+                <div class="assistant-icon">
+                    🤖
+                </div>
+
+                <h3 data-i18n="chatbotTitle">
+                    AI Farmer Chatbot
+                </h3>
+
+                <p data-i18n="chatbotText">
+                    Ask common crop health and
+                    farming questions.
+                </p>
+
+                <button
+                    id="openChatBtn"
+                    class="assistant-btn">
+
+                    <span data-i18n="openChat">
+                        Open Chat
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="assistant-card">
+
+                <div class="assistant-icon">
+                    🌦️
+                </div>
+
+                <h3 data-i18n="weatherTitle">
+                    Weather Advice
+                </h3>
+
+                <p data-i18n="weatherText">
+                    Use your location to prepare
+                    weather-based crop guidance.
+                </p>
+
+                <button
+                    id="weatherBtn"
+                    class="assistant-btn">
+
+                    <span data-i18n="checkWeather">
+                        Check Weather
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="assistant-card">
+
+                <div class="assistant-icon">
+                    📍
+                </div>
+
+                <h3 data-i18n="supportTitle">
+                    Agriculture Support
+                </h3>
+
+                <p data-i18n="supportText">
+                    Find agriculture offices and
+                    support resources.
+                </p>
+
+                <button
+                    id="supportBtn"
+                    class="assistant-btn">
+
+                    <span data-i18n="findSupport">
+                        Find Support
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="assistant-card">
+
+                <div class="assistant-icon">
+                    📈
+                </div>
+
+                <h3 data-i18n="analyticsTitle">
+                    Disease Analytics
+                </h3>
+
+                <p data-i18n="analyticsText">
+                    View prediction statistics
+                    from saved history.
+                </p>
+
+                <button
+                    id="analyticsBtn"
+                    class="assistant-btn">
+
+                    <span data-i18n="viewAnalytics">
+                        View Analytics
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div class="cta-icon">
+                🌱
+            </div>
+
+            <h2 data-i18n="ctaTitle">
+                Ready to Check Your Crop?
+            </h2>
+
+            <p data-i18n="ctaText">
+                Upload a crop leaf image and let
+                AI help you understand its health.
+            </p>
+
+            <button
+                id="ctaStartBtn"
+                class="cta-btn">
+
+                <span data-i18n="ctaButton">
+                    Start AI Diagnosis
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     HISTORY MODAL
+===================================================== -->
+
+<div
+    id="historyModal"
+    class="modal hidden">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    AI CROP DOCTOR
+                </span>
+
+                <h2 data-i18n="predictionHistory">
+                    Prediction History
+                </h2>
+
+            </div>
+
+            <button
+                id="closeHistoryBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            id="historyList"
+            class="history-list">
+        </div>
+
+
+        <div
+            id="emptyHistory"
+            class="empty-history">
+
+            <div class="empty-icon">
+                🕘
+            </div>
+
+            <h3 data-i18n="noHistory">
+                No Predictions Yet
+            </h3>
+
+            <p data-i18n="noHistoryText">
+                Your previous crop predictions
+                will appear here.
+            </p>
+
+        </div>
+
+
+        <button
+            id="clearHistoryBtn"
+            class="danger-btn">
+
+            🗑️
+            <span data-i18n="clearHistory">
+                Clear History
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CHAT MODAL
+===================================================== -->
+
+<div
+    id="chatModal"
+    class="modal hidden">
+
+    <div class="modal-box chat-box">
+
+        <div class="modal-header">
+
+            <div class="chat-title">
+
+                <div class="chat-avatar">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h2 data-i18n="farmerBot">
+                        AI Farmer Assistant
+                    </h2>
+
+                    <span class="online">
+                        ●
+                        <span data-i18n="online">
+                            Online
+                        </span>
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="closeChatBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            id="chatMessages"
+            class="chat-messages">
+
+            <div class="chat-message bot"
+                data-i18n="chatWelcome">
+                Hello! I am your AI Farmer Assistant.
+                Ask me about crop diseases,
+                treatment, organic solutions,
+                nutrition or prevention.
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+            <input
+                id="chatInput"
+                type="text"
+                data-i18n-placeholder="chatPlaceholder"
+                placeholder="Type your question...">
+
+            <button
+                id="sendChatBtn">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     WEATHER MODAL
+===================================================== -->
+
+<div
+    id="weatherModal"
+    class="modal hidden">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    FARMER ASSISTANT
+                </span>
+
+                <h2 data-i18n="weatherAdvice">
+                    Weather-Based Crop Advice
+                </h2>
+
+            </div>
+
+            <button
+                id="closeWeatherBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            id="weatherContent"
+            class="weather-content">
+
+            <div class="weather-icon-large">
+                🌦️
+            </div>
+
+            <h3 data-i18n="weatherComing">
+                Weather Connection
+            </h3>
+
+            <p data-i18n="weatherComingText">
+                Location detection is available.
+                Live weather data requires a
+                weather API connection.
+            </p>
+
+        </div>
+
+
+        <button
+            id="getLocationWeatherBtn"
+            class="primary-btn full-btn">
+
+            📍
+            <span data-i18n="useLocation">
+                Use My Location
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPPORT MODAL
+===================================================== -->
+
+<div
+    id="supportModal"
+    class="modal hidden">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    FARMER SUPPORT
+                </span>
+
+                <h2 data-i18n="agriSupport">
+                    Agriculture Support
+                </h2>
+
+            </div>
+
+            <button
+                id="closeSupportBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="support-items">
+
+            <div class="support-item">
+
+                <div>
+                    🏢
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="farmerServices">
+                        Farmer Services
+                    </h3>
+
+                    <p data-i18n="farmerServicesText">
+                        Get help from agriculture
+                        departments and farming support.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="support-item">
+
+                <div>
+                    🏛️
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="agriOffice">
+                        Agriculture Office
+                    </h3>
+
+                    <p data-i18n="agriOfficeText">
+                        Use the map to find nearby
+                        agriculture offices.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="support-item">
+
+                <div>
+                    📍
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="nearbySupport">
+                        Nearby Support
+                    </h3>
+
+                    <p data-i18n="nearbySupportText">
+                        Search for agriculture support
+                        near your current location.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="findSupportBtn"
+            class="primary-btn full-btn">
+
+            📍
+            <span data-i18n="findSupport">
+                Find Support
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ANALYTICS MODAL
+===================================================== -->
+
+<div
+    id="analyticsModal"
+    class="modal hidden">
+
+    <div class="modal-box analytics-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    AI ANALYTICS
+                </span>
+
+                <h2 data-i18n="analyticsDashboard">
+                    Disease Analytics Dashboard
+                </h2>
+
+            </div>
+
+            <button
+                id="closeAnalyticsBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="analytics-stats">
+
+            <div class="analytics-stat">
+
+                <span data-i18n="totalPredictions">
+                    Total Predictions
+                </span>
+
+                <strong id="totalPredictions">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat healthy">
+
+                <span data-i18n="healthyResults">
+                    Healthy Results
+                </span>
+
+                <strong id="healthyPredictions">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat disease">
+
+                <span data-i18n="diseaseResults">
+                    Disease Results
+                </span>
+
+                <strong id="diseasePredictions">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat">
+
+                <span data-i18n="averageConfidence">
+                    Average Confidence
+                </span>
+
+                <strong id="averageConfidence">
+                    0%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <h3 data-i18n="diseaseDistribution">
+                Disease Distribution
+            </h3>
+
+            <div id="analyticsChart"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div
+    id="loginModal"
+    class="modal hidden">
+
+    <div class="modal-box login-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    AI CROP DOCTOR
+                </span>
+
+                <h2 data-i18n="farmerLogin">
+                    Farmer Login
+                </h2>
+
+            </div>
+
+            <button
+                id="closeLoginBtn"
+                class="modal-close">
+                ✕
+            </button>
+
+        </div>
+
+
+        <p data-i18n="loginDescription">
+            Enter your name and phone number
+            to save your local farmer profile.
+        </p>
+
+
+        <form id="loginForm">
+
+            <label
+                data-i18n="farmerName">
+                Farmer Name
+            </label>
+
+            <input
+                id="loginName"
+                type="text"
+                placeholder="Enter your name"
+                required>
+
+
+            <label
+                data-i18n="phoneNumber">
+                Phone Number
+            </label>
+
+            <input
+                id="loginPhone"
+                type="tel"
+                placeholder="Enter phone number"
+                required>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-btn">
+
+                👤
+                <span data-i18n="loginNow">
+                    Login
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+                🌿 AI Crop Doctor
+            </div>
+
+            <span data-i18n="footerSubtitle">
+                Smart Farming Assistant
+            </span>
+
+            <p data-i18n="footerDescription">
+                CNN-based crop disease prediction
+                and farmer assistance system.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3 data-i18n="quickLinks">
+                Quick Links
+            </h3>
+
+            <a href="#home">Home</a>
+            <a href="#doctor">AI Doctor</a>
+            <a href="#features">Features</a>
+            <a href="#assistant">Assistant</a>
+
+        </div>
+
+
+        <div>
+
+            <h3 data-i18n="support">
+                Support
+            </h3>
+
+            <a href="#doctor">
+                Crop Diagnosis
+            </a>
+
+            <a href="#assistant">
+                Farmer Support
+            </a>
+
+            <button
+                id="footerHistoryBtn"
+                class="footer-link">
+                History
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 AI Crop Doctor ·
+
+        <span data-i18n="allRights">
+            All Rights Reserved
+        </span>
+
+        ·
+
+        <span data-i18n="footerTagline">
+            AI for Smarter Farming
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

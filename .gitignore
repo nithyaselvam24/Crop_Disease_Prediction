@@ -1,0 +1,7 @@
+dataset/
+tamil_test.mp3
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
