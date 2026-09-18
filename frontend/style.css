@@ -2498,7 +2498,22 @@ a {
     .header-actions {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 5px;
+        flex-wrap: wrap;
+        max-width: 70%;
+    }
+
+    .header-actions .language-switch {
+        display: flex;
+        gap: 3px;
+    }
+
+    .header-actions .login-btn,
+    .header-actions .logout-btn {
+        display: block;
+        padding: 7px 9px;
+        font-size: 11px;
+        white-space: nowrap;
     }
 
     .header-actions .language-switch {
@@ -2586,6 +2601,16 @@ a {
 
     .container {
         width: 92%;
+    }
+        .header-actions {
+        max-width: 65%;
+        gap: 3px;
+    }
+
+    .header-actions .login-btn,
+    .header-actions .logout-btn {
+        padding: 6px 7px;
+        font-size: 10px;
     }
 
     .hero {
