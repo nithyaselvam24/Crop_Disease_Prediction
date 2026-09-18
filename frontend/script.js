@@ -3,8 +3,8 @@
    Tamil + English Voice Support
    ========================================================= */
 
-const API_URL = "http://127.0.0.1:5000/predict";
-const TTS_URL = "http://127.0.0.1:5000/tts";
+const API_URL = "https://crop-disease-prediction-yggq.onrender.com/predict";
+const TTS_URL = "https://crop-disease-prediction-yggq.onrender.com/tts";
 const HISTORY_KEY = "cropDoctorHistory";
 const LANGUAGE_KEY = "cropDoctorLanguage";
 const LOGIN_KEY = "cropDoctorLogin";
