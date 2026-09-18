@@ -1,1 +1,2 @@
 model/crop_disease_model.keras filter=lfs diff=lfs merge=lfs -text
+model/crop_disease_model.tflite filter=lfs diff=lfs merge=lfs -text

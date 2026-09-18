@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-import tensorflow as tf
+import ai_edge_litert.interpreter as tflite
 import edge_tts
 
 
@@ -32,20 +32,17 @@ PROJECT_DIR = os.path.dirname(
     BACKEND_DIR
 )
 
-
 MODEL_PATH = os.path.join(
     PROJECT_DIR,
     "model",
-    "crop_disease_model.keras"
+    "crop_disease_model.tflite"
 )
-
 
 CLASS_NAMES_PATH = os.path.join(
     PROJECT_DIR,
     "model",
     "class_names.json"
 )
-
 
 DISEASE_INFO_PATH = os.path.join(
     BACKEND_DIR,
@@ -68,30 +65,43 @@ print("Disease info   :", DISEASE_INFO_PATH)
 
 
 if not os.path.exists(MODEL_PATH):
-
     raise FileNotFoundError(
-        f"\nModel file not found:\n{MODEL_PATH}"
+        f"\nTFLite model file not found:\n{MODEL_PATH}"
     )
 
 
 if not os.path.exists(CLASS_NAMES_PATH):
-
     raise FileNotFoundError(
         f"\nclass_names.json not found:\n{CLASS_NAMES_PATH}"
     )
 
 
 # =========================================================
-# 4. LOAD CNN MODEL
+# 4. LOAD TFLITE MODEL
 # =========================================================
 
-print("\nLoading CNN model...")
+print("\nLoading TFLite CNN model...")
 
-model = tf.keras.models.load_model(
-    MODEL_PATH
+interpreter = tflite.Interpreter(
+    model_path=MODEL_PATH
 )
 
-print("Model loaded successfully.")
+interpreter.allocate_tensors()
+
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+print("TFLite model loaded successfully.")
+
+print(
+    "Input shape :",
+    input_details[0]["shape"]
+)
+
+print(
+    "Output shape:",
+    output_details[0]["shape"]
+)
 
 
 # =========================================================
@@ -154,12 +164,10 @@ def preprocess_image(image):
     # Convert image to RGB
     image = image.convert("RGB")
 
-
     # Resize image
     image = image.resize(
         (224, 224)
     )
-
 
     # Convert to NumPy array
     image_array = np.array(
@@ -167,19 +175,16 @@ def preprocess_image(image):
         dtype=np.float32
     )
 
-
     # Normalize pixel values
     image_array = (
         image_array / 255.0
     )
-
 
     # Add batch dimension
     image_array = np.expand_dims(
         image_array,
         axis=0
     )
-
 
     return image_array
 
@@ -300,12 +305,43 @@ def predict():
 
 
         # -------------------------------------------------
-        # CNN prediction
+        # TFLite input
         # -------------------------------------------------
 
-        predictions = model.predict(
-            processed_image,
-            verbose=0
+        input_index = (
+            input_details[0]["index"]
+        )
+
+        output_index = (
+            output_details[0]["index"]
+        )
+
+
+        # -------------------------------------------------
+        # Set input tensor
+        # -------------------------------------------------
+
+        interpreter.set_tensor(
+            input_index,
+            processed_image
+        )
+
+
+        # -------------------------------------------------
+        # Run CNN prediction
+        # -------------------------------------------------
+
+        interpreter.invoke()
+
+
+        # -------------------------------------------------
+        # Get output
+        # -------------------------------------------------
+
+        predictions = (
+            interpreter.get_tensor(
+                output_index
+            )
         )
 
 
@@ -673,9 +709,17 @@ def text_to_speech():
             )
 
 
-        print("\n========================================")
-        print("        TEXT TO SPEECH REQUEST")
-        print("========================================")
+        print(
+            "\n========================================"
+        )
+
+        print(
+            "        TEXT TO SPEECH REQUEST"
+        )
+
+        print(
+            "========================================"
+        )
 
         print(
             "Language :",
@@ -704,11 +748,9 @@ def text_to_speech():
             )
         )
 
-
         temp_path = (
             temp_file.name
         )
-
 
         temp_file.close()
 
@@ -853,9 +895,17 @@ def text_to_speech():
 
 if __name__ == "__main__":
 
-    print("\n========================================")
-    print("        SERVER STARTING")
-    print("========================================")
+    print(
+        "\n========================================"
+    )
+
+    print(
+        "        SERVER STARTING"
+    )
+
+    print(
+        "========================================"
+    )
 
     print(
         "URL: http://127.0.0.1:5000"
@@ -869,7 +919,9 @@ if __name__ == "__main__":
         "TTS API       : /tts"
     )
 
-    print("========================================\n")
+    print(
+        "========================================\n"
+    )
 
 
     app.run(
