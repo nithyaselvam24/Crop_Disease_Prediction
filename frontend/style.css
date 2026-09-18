@@ -2602,6 +2602,30 @@ a {
     .container {
         width: 92%;
     }
+        body {
+        line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    button,
+    a,
+    span {
+        line-height: 1.6;
+    }
+
+    .hero h1 {
+        line-height: 1.5;
+    }
+
+    .section-heading h2,
+    .guidance-heading h2,
+    .result-top h2 {
+        line-height: 1.5;
+    }
         .header-actions {
         max-width: 65%;
         gap: 3px;
