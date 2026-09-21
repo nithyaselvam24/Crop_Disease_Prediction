@@ -2495,16 +2495,21 @@ async function downloadPDF() {
 
 
     // Add report normally to page
-    report.style.position = "absolute";
-    report.style.left = "0";
-    report.style.top = "0";
-    report.style.background = "#ffffff";
-    report.style.display = "block";
-    report.style.visibility = "visible";
-    report.style.opacity = "1";
-    report.style.zIndex = "999999";
+    // Prepare report for PDF rendering
+report.style.position = "fixed";
+report.style.left = "0";
+report.style.top = "0";
+report.style.width = "794px";
+report.style.minHeight = "1123px";
+report.style.background = "#ffffff";
+report.style.display = "block";
+report.style.visibility = "visible";
+report.style.opacity = "1";
+report.style.zIndex = "999999";
+report.style.padding = "0";
+report.style.margin = "0";
 
-    document.body.appendChild(report);
+document.body.appendChild(report);
 
 
     const filename = isTamil
@@ -2529,41 +2534,26 @@ async function downloadPDF() {
 
 
         const options = {
-
-            margin: 10,
-
-            filename: filename,
-
-            image: {
-                type: "jpeg",
-                quality: 0.98
-            },
-
-            html2canvas: {
-
-                scale: 2,
-
-                useCORS: true,
-
-                allowTaint: true,
-
-                backgroundColor: "#ffffff",
-
-                logging: true
-
-            },
-
-            jsPDF: {
-
-                unit: "mm",
-
-                format: "a4",
-
-                orientation: "portrait"
-
-            }
-
-        };
+    margin: 10,
+    filename: filename,
+    image: {
+        type: "jpeg",
+        quality: 0.98
+    },
+    html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: true,
+        windowWidth: 794,
+        windowHeight: 1123
+    },
+    jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait"
+    }
+};
 
 
         console.log("Converting HTML to PDF...");
