@@ -2214,31 +2214,47 @@ if (downloadPdfBtn) {
     downloadPdfBtn.addEventListener("click", downloadPDF);
 }
 
+
+// ======================================================
+// DOWNLOAD PDF
+// ======================================================
+
 async function downloadPDF() {
 
+    // Check result section
     if (!resultSection || resultSection.classList.contains("hidden")) {
+
         showError(
             currentLanguage === "ta"
                 ? "முதலில் ஒரு பயிர் படத்தை கணிக்கவும்."
                 : "Please predict an image first."
         );
+
         return;
     }
 
-    if (typeof html2pdf === "undefined") {
+
+    // Check jsPDF library
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+
         showError(
             currentLanguage === "ta"
                 ? "PDF library load ஆகவில்லை."
                 : "PDF library is not loaded."
         );
+
         return;
     }
 
+
     const isTamil = currentLanguage === "ta";
 
-    // =====================================================
-    // GET PREDICTION VALUES
-    // =====================================================
+    const { jsPDF } = window.jspdf;
+
+
+    // ======================================================
+    // GET RESULT DATA
+    // ======================================================
 
     const crop =
         document.getElementById("cropName")?.textContent?.trim() || "-";
@@ -2274,441 +2290,421 @@ async function downloadPDF() {
         document.getElementById("warning")?.textContent?.trim() || "-";
 
 
-    // =====================================================
-    // CREATE PDF CONTAINER
-    // =====================================================
-
-    const report = document.createElement("div");
-
-    report.id = "pdfReportContainer";
-
-    report.style.position = "absolute";
-    report.style.left = "0";
-    report.style.top = `${window.scrollY}px`;
-    report.style.width = "794px";
-    report.style.background = "#ffffff";
-    report.style.color = "#000000";
-    report.style.color = "#173b28";
-    report.style.display = "block";
-    report.style.visibility = "visible";
-    report.style.opacity = "1";
-    report.style.zIndex = "999999";
-    report.style.fontFamily = "Arial, Helvetica, sans-serif";
-    report.style.padding = "0";
-    report.style.margin = "0";
-    report.style.boxSizing = "border-box";
-
-    report.innerHTML = `
-
-        <div style="
-            width: 100%;
-            padding: 35px;
-            box-sizing: border-box;
-            background: #ffffff;
-            color: #173b28;
-            font-family: Arial, Helvetica, sans-serif;
-        ">
-
-            <!-- HEADER -->
-
-            <div style="
-                text-align: center;
-                border-bottom: 3px solid #16834b;
-                padding-bottom: 18px;
-                margin-bottom: 25px;
-            ">
-
-                <h1 style="
-                    margin: 0;
-                    font-size: 30px;
-                    line-height: 1.4;
-                    color: #0b6b3a;
-                ">
-                    ${
-                        isTamil
-                            ? "AI பயிர் ஆரோக்கிய அறிக்கை"
-                            : "AI Crop Health Report"
-                    }
-                </h1>
-
-                <p style="
-                    margin: 8px 0 0;
-                    font-size: 14px;
-                    line-height: 1.5;
-                    color: #65786c;
-                ">
-                    ${
-                        isTamil
-                            ? "AI பயிர் மருத்துவர் - கணிப்பு அறிக்கை"
-                            : "AI Crop Doctor - Prediction Report"
-                    }
-                </p>
-
-            </div>
-
-
-            <!-- DETECTION RESULT -->
-
-            <div style="
-                background: #effbf3;
-                border-left: 6px solid #16834b;
-                padding: 20px;
-                margin-bottom: 20px;
-                box-sizing: border-box;
-            ">
-
-                <h2 style="
-                    margin: 0 0 15px;
-                    color: #16834b;
-                    font-size: 21px;
-                    line-height: 1.4;
-                ">
-                    ${
-                        isTamil
-                            ? "கண்டறியப்பட்ட முடிவு"
-                            : "Detection Result"
-                    }
-                </h2>
-
-                <p style="line-height:1.6;">
-                    <strong>
-                        ${isTamil ? "பயிர்" : "Crop"}:
-                    </strong>
-                    ${crop}
-                </p>
-
-                <p style="line-height:1.6;">
-                    <strong>
-                        ${isTamil ? "நோய்" : "Disease"}:
-                    </strong>
-                    ${disease}
-                </p>
-
-                <p style="line-height:1.6;">
-                    <strong>
-                        ${isTamil ? "நம்பகத்தன்மை" : "Confidence"}:
-                    </strong>
-                    ${confidence}
-                </p>
-
-                <p style="line-height:1.6;">
-                    <strong>
-                        ${isTamil ? "நிலை" : "Confidence Level"}:
-                    </strong>
-                    ${confidenceLevel}
-                </p>
-
-                <p style="line-height:1.6;">
-                    <strong>
-                        ${isTamil ? "தீவிரம்" : "Severity"}:
-                    </strong>
-                    ${severity}
-                </p>
-
-            </div>
-
-
-            <!-- SYMPTOMS -->
-
-            <div style="
-                border: 1px solid #d9e9de;
-                padding: 16px;
-                margin-bottom: 15px;
-                box-sizing: border-box;
-            ">
-
-                <h3 style="
-                    color:#16834b;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${isTamil ? "அறிகுறிகள்" : "Symptoms"}
-                </h3>
-
-                <p style="line-height:1.6;">
-                    ${symptoms}
-                </p>
-
-            </div>
-
-
-            <!-- TREATMENT -->
-
-            <div style="
-                border: 1px solid #d9e9de;
-                padding: 16px;
-                margin-bottom: 15px;
-                box-sizing: border-box;
-            ">
-
-                <h3 style="
-                    color:#16834b;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${isTamil ? "சிகிச்சை" : "Treatment"}
-                </h3>
-
-                <p style="line-height:1.6;">
-                    ${treatment}
-                </p>
-
-            </div>
-
-
-            <!-- ORGANIC SOLUTION -->
-
-            <div style="
-                border: 1px solid #d9e9de;
-                padding: 16px;
-                margin-bottom: 15px;
-                box-sizing: border-box;
-            ">
-
-                <h3 style="
-                    color:#16834b;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${
-                        isTamil
-                            ? "இயற்கை தீர்வு"
-                            : "Organic Solution"
-                    }
-                </h3>
-
-                <p style="line-height:1.6;">
-                    ${organicSolution}
-                </p>
-
-            </div>
-
-
-            <!-- NUTRITION -->
-
-            <div style="
-                border: 1px solid #d9e9de;
-                padding: 16px;
-                margin-bottom: 15px;
-                box-sizing: border-box;
-            ">
-
-                <h3 style="
-                    color:#16834b;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${
-                        isTamil
-                            ? "ஊட்டச்சத்து / உர வழிகாட்டுதல்"
-                            : "Nutrition / Fertilizer Guidance"
-                    }
-                </h3>
-
-                <p style="line-height:1.6;">
-                    ${nutrition}
-                </p>
-
-            </div>
-
-
-            <!-- PREVENTION -->
-
-            <div style="
-                border: 1px solid #d9e9de;
-                padding: 16px;
-                margin-bottom: 15px;
-                box-sizing: border-box;
-            ">
-
-                <h3 style="
-                    color:#16834b;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${
-                        isTamil
-                            ? "தடுப்பு முறைகள்"
-                            : "Prevention"
-                    }
-                </h3>
-
-                <p style="line-height:1.6;">
-                    ${prevention}
-                </p>
-
-            </div>
-
-
-            <!-- WARNING -->
+    // ======================================================
+    // CREATE PDF
+    // ======================================================
 
-            <div style="
-                border: 1px solid #f0d68b;
-                background: #fff8df;
-                padding: 16px;
-                margin-bottom: 20px;
-                box-sizing: border-box;
-            ">
+    const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
 
-                <h3 style="
-                    color:#9a6a00;
-                    margin-top:0;
-                    line-height:1.4;
-                ">
-                    ${
-                        isTamil
-                            ? "முக்கிய எச்சரிக்கை"
-                            : "Important Warning"
-                    }
-                </h3>
 
-                <p style="line-height:1.6;">
-                    ${warning}
-                </p>
+    const pageWidth =
+        doc.internal.pageSize.getWidth();
 
-            </div>
+    const pageHeight =
+        doc.internal.pageSize.getHeight();
 
 
-            <!-- FOOTER -->
+    const margin = 15;
 
-            <div style="
-                text-align:center;
-                border-top:2px solid #d9e9de;
-                padding-top:15px;
-                margin-top:25px;
-                font-size:12px;
-                line-height:1.5;
-                color:#718679;
-            ">
-                AI Crop Doctor · AI for Smarter Farming
-            </div>
+    const contentWidth =
+        pageWidth - (margin * 2);
 
-        </div>
-    `;
 
+    let y = 20;
 
-    // =====================================================
-    // ADD TO BODY
-    // =====================================================
 
-    document.body.appendChild(report);
+    // ======================================================
+    // HEADER
+    // ======================================================
 
+    doc.setFont("helvetica", "bold");
 
-    try {
+    doc.setFontSize(20);
 
-        console.log("=================================");
-        console.log("PDF GENERATION STARTED");
-        console.log("Crop:", crop);
-        console.log("Disease:", disease);
-        console.log("Confidence:", confidence);
-        console.log("=================================");
+    doc.setTextColor(22, 131, 75);
 
 
-        // Wait for browser rendering
-        await new Promise(resolve => {
-            setTimeout(resolve, 1000);
-        });
+    doc.text(
+        "AI Crop Health Report",
+        pageWidth / 2,
+        y,
+        {
+            align: "center"
+        }
+    );
 
 
-        // =================================================
-        // PDF OPTIONS
-        // =================================================
+    y += 8;
 
-        const options = {
 
-            margin: 8,
+    doc.setFont("helvetica", "normal");
 
-            filename: isTamil
-                ? "AI-Payir-Aarokkiya-Arikkai.pdf"
-                : "AI-Crop-Health-Report.pdf",
+    doc.setFontSize(10);
 
-            image: {
-                type: "jpeg",
-                quality: 0.98
-            },
+    doc.setTextColor(80, 80, 80);
 
-            html2canvas: {
 
-                scale: 2,
+    doc.text(
+        "AI Crop Doctor - Prediction Report",
+        pageWidth / 2,
+        y,
+        {
+            align: "center"
+        }
+    );
 
-                useCORS: true,
 
-                allowTaint: true,
+    y += 8;
 
-                backgroundColor: "#ffffff",
 
-                logging: false,
+    // Header line
 
-                scrollX: 0,
+    doc.setDrawColor(22, 131, 75);
 
-                scrollY: 0
+    doc.setLineWidth(1);
 
-            },
 
-            jsPDF: {
+    doc.line(
+        margin,
+        y,
+        pageWidth - margin,
+        y
+    );
 
-                unit: "mm",
 
-                format: "a4",
+    y += 12;
 
-                orientation: "portrait"
 
-            },
+    // ======================================================
+    // DETECTION RESULT TITLE
+    // ======================================================
 
-            pagebreak: {
+    doc.setFont("helvetica", "bold");
 
-                mode: [
-                    "css",
-                    "legacy"
-                ]
+    doc.setFontSize(15);
 
-            }
+    doc.setTextColor(0, 0, 0);
 
-        };
 
+    doc.text(
+        "Detection Result",
+        margin,
+        y
+    );
 
-        console.log("Converting HTML to PDF...");
 
+    y += 9;
 
-        // =================================================
-        // GENERATE PDF
-        // =================================================
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        await html2pdf()
-            .set(options)
-            .from(report)
-            .save();
 
+    // ======================================================
+    // ADD FIELD FUNCTION
+    // ======================================================
 
-        console.log("PDF DOWNLOAD COMPLETED");
+    function addField(label, value) {
 
+        doc.setFont("helvetica", "bold");
 
-    }
+        doc.setFontSize(11);
 
-    catch (error) {
+        doc.setTextColor(0, 0, 0);
 
-        console.error(
-            "PDF ERROR:",
-            error
+
+        doc.text(
+            label + ":",
+            margin,
+            y
         );
 
-        showError(
-            isTamil
-                ? "PDF உருவாக்க முடியவில்லை."
-                : "Unable to generate PDF."
+
+        doc.setFont("helvetica", "normal");
+
+
+        const lines =
+            doc.splitTextToSize(
+                value,
+                contentWidth - 45
+            );
+
+
+        doc.text(
+            lines,
+            margin + 40,
+            y
         );
 
+
+        y += Math.max(
+            7,
+            (lines.length * 5) + 2
+        );
     }
 
-    finally {
 
-        // Remove temporary PDF container
-        if (report && report.parentNode) {
-            report.parentNode.removeChild(report);
+    // ======================================================
+    // RESULT DETAILS
+    // ======================================================
+
+    addField(
+        "Crop",
+        crop
+    );
+
+
+    addField(
+        "Disease",
+        disease
+    );
+
+
+    addField(
+        "Confidence",
+        confidence
+    );
+
+
+    addField(
+        "Confidence Level",
+        confidenceLevel
+    );
+
+
+    addField(
+        "Severity",
+        severity
+    );
+
+
+    y += 5;
+
+
+    // ======================================================
+    // SECTION FUNCTION
+    // ======================================================
+
+    function addSection(title, content) {
+
+        // New page if needed
+
+        if (y > pageHeight - 35) {
+
+            doc.addPage();
+
+            y = 20;
         }
 
+
+        // Section title
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(13);
+
+        doc.setTextColor(
+            22,
+            131,
+            75
+        );
+
+
+        doc.text(
+            title,
+            margin,
+            y
+        );
+
+
+        y += 7;
+
+
+        // Section content
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(10);
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+
+        const lines =
+            doc.splitTextToSize(
+                content,
+                contentWidth
+            );
+
+
+        for (const line of lines) {
+
+            // Check page height
+
+            if (y > pageHeight - 20) {
+
+                doc.addPage();
+
+                y = 20;
+            }
+
+
+            doc.text(
+                line,
+                margin,
+                y
+            );
+
+
+            y += 5;
+        }
+
+
+        y += 6;
     }
 
+
+    // ======================================================
+    // SYMPTOMS
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Symptoms"
+            : "Symptoms",
+
+        symptoms
+    );
+
+
+    // ======================================================
+    // TREATMENT
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Treatment"
+            : "Treatment",
+
+        treatment
+    );
+
+
+    // ======================================================
+    // ORGANIC SOLUTION
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Organic Solution"
+            : "Organic Solution",
+
+        organicSolution
+    );
+
+
+    // ======================================================
+    // NUTRITION
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Nutrition / Fertilizer Guidance"
+            : "Nutrition / Fertilizer Guidance",
+
+        nutrition
+    );
+
+
+    // ======================================================
+    // PREVENTION
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Prevention"
+            : "Prevention",
+
+        prevention
+    );
+
+
+    // ======================================================
+    // WARNING
+    // ======================================================
+
+    addSection(
+        isTamil
+            ? "Important Warning"
+            : "Important Warning",
+
+        warning
+    );
+
+
+    // ======================================================
+    // FOOTER
+    // ======================================================
+
+    doc.setDrawColor(
+        200,
+        200,
+        200
+    );
+
+    doc.setLineWidth(0.5);
+
+
+    doc.line(
+        margin,
+        pageHeight - 18,
+        pageWidth - margin,
+        pageHeight - 18
+    );
+
+
+    doc.setFont(
+        "helvetica",
+        "normal"
+    );
+
+    doc.setFontSize(8);
+
+    doc.setTextColor(
+        100,
+        100,
+        100
+    );
+
+
+    doc.text(
+        "AI Crop Doctor - AI for Smarter Farming",
+        pageWidth / 2,
+        pageHeight - 10,
+        {
+            align: "center"
+        }
+    );
+
+
+    // ======================================================
+    // SAVE PDF
+    // ======================================================
+
+    doc.save(
+        isTamil
+            ? "AI-Payir-Aarokkiya-Arikkai.pdf"
+            : "AI-Crop-Health-Report.pdf"
+    );
 }
 /* =========================================================
    VOICE SYSTEM - EDGE TTS + BROWSER ENGLISH
