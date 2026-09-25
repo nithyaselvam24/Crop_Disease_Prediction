@@ -2236,7 +2236,10 @@ async function downloadPDF() {
 
     const isTamil = currentLanguage === "ta";
 
-    // Get prediction values
+    // =====================================================
+    // GET PREDICTION VALUES
+    // =====================================================
+
     const crop =
         document.getElementById("cropName")?.textContent?.trim() || "-";
 
@@ -2271,18 +2274,40 @@ async function downloadPDF() {
         document.getElementById("warning")?.textContent?.trim() || "-";
 
 
-    // Create PDF content
+    // =====================================================
+    // CREATE PDF CONTAINER
+    // =====================================================
+
     const report = document.createElement("div");
 
+    report.id = "pdfReportContainer";
+
+    report.style.position = "absolute";
+    report.style.left = "0";
+    report.style.top = `${window.scrollY}px`;
+    report.style.width = "794px";
+    report.style.background = "#ffffff";
+    report.style.color = "#173b28";
+    report.style.display = "block";
+    report.style.visibility = "visible";
+    report.style.opacity = "1";
+    report.style.zIndex = "999999";
+    report.style.padding = "0";
+    report.style.margin = "0";
+    report.style.boxSizing = "border-box";
+
     report.innerHTML = `
+
         <div style="
-            width: 720px;
+            width: 100%;
             padding: 35px;
             box-sizing: border-box;
-            background: white;
+            background: #ffffff;
             color: #173b28;
             font-family: Arial, Helvetica, sans-serif;
         ">
+
+            <!-- HEADER -->
 
             <div style="
                 text-align: center;
@@ -2294,68 +2319,84 @@ async function downloadPDF() {
                 <h1 style="
                     margin: 0;
                     font-size: 30px;
+                    line-height: 1.4;
                     color: #0b6b3a;
                 ">
-                    ${isTamil
-                        ? "AI பயிர் ஆரோக்கிய அறிக்கை"
-                        : "AI Crop Health Report"}
+                    ${
+                        isTamil
+                            ? "AI பயிர் ஆரோக்கிய அறிக்கை"
+                            : "AI Crop Health Report"
+                    }
                 </h1>
 
                 <p style="
                     margin: 8px 0 0;
                     font-size: 14px;
+                    line-height: 1.5;
                     color: #65786c;
                 ">
-                    ${isTamil
-                        ? "AI பயிர் மருத்துவர் - கணிப்பு அறிக்கை"
-                        : "AI Crop Doctor - Prediction Report"}
+                    ${
+                        isTamil
+                            ? "AI பயிர் மருத்துவர் - கணிப்பு அறிக்கை"
+                            : "AI Crop Doctor - Prediction Report"
+                    }
                 </p>
 
             </div>
 
+
+            <!-- DETECTION RESULT -->
 
             <div style="
                 background: #effbf3;
                 border-left: 6px solid #16834b;
                 padding: 20px;
                 margin-bottom: 20px;
+                box-sizing: border-box;
             ">
 
                 <h2 style="
                     margin: 0 0 15px;
                     color: #16834b;
                     font-size: 21px;
+                    line-height: 1.4;
                 ">
-                    ${isTamil
-                        ? "கண்டறியப்பட்ட முடிவு"
-                        : "Detection Result"}
+                    ${
+                        isTamil
+                            ? "கண்டறியப்பட்ட முடிவு"
+                            : "Detection Result"
+                    }
                 </h2>
 
-                <p>
-                    <strong>${isTamil ? "பயிர்" : "Crop"}:</strong>
+                <p style="line-height:1.6;">
+                    <strong>
+                        ${isTamil ? "பயிர்" : "Crop"}:
+                    </strong>
                     ${crop}
                 </p>
 
-                <p>
-                    <strong>${isTamil ? "நோய்" : "Disease"}:</strong>
+                <p style="line-height:1.6;">
+                    <strong>
+                        ${isTamil ? "நோய்" : "Disease"}:
+                    </strong>
                     ${disease}
                 </p>
 
-                <p>
+                <p style="line-height:1.6;">
                     <strong>
                         ${isTamil ? "நம்பகத்தன்மை" : "Confidence"}:
                     </strong>
                     ${confidence}
                 </p>
 
-                <p>
+                <p style="line-height:1.6;">
                     <strong>
                         ${isTamil ? "நிலை" : "Confidence Level"}:
                     </strong>
                     ${confidenceLevel}
                 </p>
 
-                <p>
+                <p style="line-height:1.6;">
                     <strong>
                         ${isTamil ? "தீவிரம்" : "Severity"}:
                     </strong>
@@ -2365,13 +2406,20 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- SYMPTOMS -->
+
             <div style="
                 border: 1px solid #d9e9de;
                 padding: 16px;
                 margin-bottom: 15px;
+                box-sizing: border-box;
             ">
 
-                <h3 style="color:#16834b;margin-top:0;">
+                <h3 style="
+                    color:#16834b;
+                    margin-top:0;
+                    line-height:1.4;
+                ">
                     ${isTamil ? "அறிகுறிகள்" : "Symptoms"}
                 </h3>
 
@@ -2382,13 +2430,20 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- TREATMENT -->
+
             <div style="
                 border: 1px solid #d9e9de;
                 padding: 16px;
                 margin-bottom: 15px;
+                box-sizing: border-box;
             ">
 
-                <h3 style="color:#16834b;margin-top:0;">
+                <h3 style="
+                    color:#16834b;
+                    margin-top:0;
+                    line-height:1.4;
+                ">
                     ${isTamil ? "சிகிச்சை" : "Treatment"}
                 </h3>
 
@@ -2399,16 +2454,25 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- ORGANIC SOLUTION -->
+
             <div style="
                 border: 1px solid #d9e9de;
                 padding: 16px;
                 margin-bottom: 15px;
+                box-sizing: border-box;
             ">
 
-                <h3 style="color:#16834b;margin-top:0;">
-                    ${isTamil
-                        ? "இயற்கை தீர்வு"
-                        : "Organic Solution"}
+                <h3 style="
+                    color:#16834b;
+                    margin-top:0;
+                    line-height:1.4;
+                ">
+                    ${
+                        isTamil
+                            ? "இயற்கை தீர்வு"
+                            : "Organic Solution"
+                    }
                 </h3>
 
                 <p style="line-height:1.6;">
@@ -2418,16 +2482,25 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- NUTRITION -->
+
             <div style="
                 border: 1px solid #d9e9de;
                 padding: 16px;
                 margin-bottom: 15px;
+                box-sizing: border-box;
             ">
 
-                <h3 style="color:#16834b;margin-top:0;">
-                    ${isTamil
-                        ? "ஊட்டச்சத்து / உர வழிகாட்டுதல்"
-                        : "Nutrition / Fertilizer Guidance"}
+                <h3 style="
+                    color:#16834b;
+                    margin-top:0;
+                    line-height:1.4;
+                ">
+                    ${
+                        isTamil
+                            ? "ஊட்டச்சத்து / உர வழிகாட்டுதல்"
+                            : "Nutrition / Fertilizer Guidance"
+                    }
                 </h3>
 
                 <p style="line-height:1.6;">
@@ -2437,16 +2510,25 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- PREVENTION -->
+
             <div style="
                 border: 1px solid #d9e9de;
                 padding: 16px;
                 margin-bottom: 15px;
+                box-sizing: border-box;
             ">
 
-                <h3 style="color:#16834b;margin-top:0;">
-                    ${isTamil
-                        ? "தடுப்பு முறைகள்"
-                        : "Prevention"}
+                <h3 style="
+                    color:#16834b;
+                    margin-top:0;
+                    line-height:1.4;
+                ">
+                    ${
+                        isTamil
+                            ? "தடுப்பு முறைகள்"
+                            : "Prevention"
+                    }
                 </h3>
 
                 <p style="line-height:1.6;">
@@ -2456,20 +2538,26 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- WARNING -->
+
             <div style="
                 border: 1px solid #f0d68b;
                 background: #fff8df;
                 padding: 16px;
                 margin-bottom: 20px;
+                box-sizing: border-box;
             ">
 
                 <h3 style="
                     color:#9a6a00;
                     margin-top:0;
+                    line-height:1.4;
                 ">
-                    ${isTamil
-                        ? "முக்கிய எச்சரிக்கை"
-                        : "Important Warning"}
+                    ${
+                        isTamil
+                            ? "முக்கிய எச்சரிக்கை"
+                            : "Important Warning"
+                    }
                 </h3>
 
                 <p style="line-height:1.6;">
@@ -2479,12 +2567,15 @@ async function downloadPDF() {
             </div>
 
 
+            <!-- FOOTER -->
+
             <div style="
                 text-align:center;
                 border-top:2px solid #d9e9de;
                 padding-top:15px;
                 margin-top:25px;
                 font-size:12px;
+                line-height:1.5;
                 color:#718679;
             ">
                 AI Crop Doctor · AI for Smarter Farming
@@ -2494,27 +2585,11 @@ async function downloadPDF() {
     `;
 
 
-    // Add report normally to page
-    // Prepare report for PDF rendering
-report.style.position = "fixed";
-report.style.left = "0";
-report.style.top = "0";
-report.style.width = "794px";
-report.style.minHeight = "1123px";
-report.style.background = "#ffffff";
-report.style.display = "block";
-report.style.visibility = "visible";
-report.style.opacity = "1";
-report.style.zIndex = "999999";
-report.style.padding = "0";
-report.style.margin = "0";
+    // =====================================================
+    // ADD TO BODY
+    // =====================================================
 
-document.body.appendChild(report);
-
-
-    const filename = isTamil
-        ? "AI-Payir-Aarokkiya-Arikkai.pdf"
-        : "AI-Crop-Health-Report.pdf";
+    document.body.appendChild(report);
 
 
     try {
@@ -2527,40 +2602,76 @@ document.body.appendChild(report);
         console.log("=================================");
 
 
-        // Give browser time to render
+        // Wait for browser rendering
         await new Promise(resolve => {
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 1000);
         });
 
 
+        // =================================================
+        // PDF OPTIONS
+        // =================================================
+
         const options = {
-    margin: 10,
-    filename: filename,
-    image: {
-        type: "jpeg",
-        quality: 0.98
-    },
-    html2canvas: {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        logging: true,
-        windowWidth: 794,
-        windowHeight: 1123
-    },
-    jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait"
-    }
-};
+
+            margin: 8,
+
+            filename: isTamil
+                ? "AI-Payir-Aarokkiya-Arikkai.pdf"
+                : "AI-Crop-Health-Report.pdf",
+
+            image: {
+                type: "jpeg",
+                quality: 0.98
+            },
+
+            html2canvas: {
+
+                scale: 2,
+
+                useCORS: true,
+
+                allowTaint: true,
+
+                backgroundColor: "#ffffff",
+
+                logging: false,
+
+                scrollX: 0,
+
+                scrollY: 0
+
+            },
+
+            jsPDF: {
+
+                unit: "mm",
+
+                format: "a4",
+
+                orientation: "portrait"
+
+            },
+
+            pagebreak: {
+
+                mode: [
+                    "css",
+                    "legacy"
+                ]
+
+            }
+
+        };
 
 
         console.log("Converting HTML to PDF...");
 
 
-        // IMPORTANT:
-        // Do NOT use toContainer() or toCanvas() manually
+        // =================================================
+        // GENERATE PDF
+        // =================================================
+
         await html2pdf()
             .set(options)
             .from(report)
@@ -2570,9 +2681,14 @@ document.body.appendChild(report);
         console.log("PDF DOWNLOAD COMPLETED");
 
 
-    } catch (error) {
+    }
 
-        console.error("PDF ERROR:", error);
+    catch (error) {
+
+        console.error(
+            "PDF ERROR:",
+            error
+        );
 
         showError(
             isTamil
@@ -2580,10 +2696,13 @@ document.body.appendChild(report);
                 : "Unable to generate PDF."
         );
 
-    } finally {
+    }
 
-        if (document.body.contains(report)) {
-            document.body.removeChild(report);
+    finally {
+
+        // Remove temporary PDF container
+        if (report && report.parentNode) {
+            report.parentNode.removeChild(report);
         }
 
     }
