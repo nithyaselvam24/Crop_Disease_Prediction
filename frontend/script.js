@@ -2287,11 +2287,13 @@ async function downloadPDF() {
     report.style.top = `${window.scrollY}px`;
     report.style.width = "794px";
     report.style.background = "#ffffff";
+    report.style.color = "#000000";
     report.style.color = "#173b28";
     report.style.display = "block";
     report.style.visibility = "visible";
     report.style.opacity = "1";
     report.style.zIndex = "999999";
+    report.style.fontFamily = "Arial, Helvetica, sans-serif";
     report.style.padding = "0";
     report.style.margin = "0";
     report.style.boxSizing = "border-box";
@@ -2671,7 +2673,7 @@ async function downloadPDF() {
         // =================================================
         // GENERATE PDF
         // =================================================
-
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await html2pdf()
             .set(options)
             .from(report)
